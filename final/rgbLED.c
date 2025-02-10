@@ -1,10 +1,10 @@
 /*! \file */
-/*!
+/*!b
  * rgbLED.c
  *
- * Description: RGB driver for LED2 on MSP432P4111 Launchpad
+ * Description:
  *
- *  Created on:
+ *  Created on: 2/10/25
  *      Author:
  */
 
