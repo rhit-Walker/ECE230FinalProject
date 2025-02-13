@@ -14,4 +14,4 @@
 #include "rgbLED.h"
 #include "lcd8bits_ece230winter24_25.h"
 
-#endif /* MAIN_H_ *
+#endif /* MAIN_H_ */
