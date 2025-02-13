@@ -1,15 +1,13 @@
+/*
+ * buttons.h
+ *
+ *  Created on: Feb 13, 2025
+ *      Author: martincw
+ */
 
-typedef enum _SwitchState
-{
-    NotPressed, Pressed
-} SwitchState;
+#ifndef BUTTONS_H_
+#define BUTTONS_H_
 
 
-void buttons_init(void){
 
-}
-
-SwitchState CheckSwitch2version1(void){
-
-}
-//n
+#endif /* BUTTONS_H_ */
