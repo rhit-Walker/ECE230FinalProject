@@ -11,8 +11,14 @@
 #ifndef BUTTONS_H_
 #define BUTTONS_H_
 
-#define BUTTON_PORT P1            //Port 1
-#define BUTTON_1_PIN 0b00100000   //Pin 1.5
+#define BUTTON_PORT P2            //Port 1
+
+#define BUTTON_1_PIN  BIT4   // P2.4
+#define BUTTON_2_PIN  BIT5   // P2.5
+#define BUTTON_3_PIN  BIT6   // P2.6
+#define BUTTON_4_PIN  BIT7   // P2.7
+
+#define RESETBUTTON_PIN  BIT3   // P2.3
 //TODO #define more buttons
 
 typedef enum _SwitchState {NotPressed, Pressed} SwitchState; // maybe
@@ -24,14 +30,15 @@ typedef enum _SwitchState {NotPressed, Pressed} SwitchState; // maybe
  * \return None
  */
 extern void InitializeSwitches(void);
-
+extern void InitializeResetSwitch(void);
 
 /*
- * Checks the state of switch1 (assumes the player only presses one switch at a time)
- *
- * \return SwitchState
+ * Checks the state of a given switch
+ * \param switchNum The switch number (1 to 4)
+ * \return SwitchState Pressed/NotPressed
  */
-extern SwitchState CheckSwitch1(void);
+extern SwitchState CheckSwitch(int switchNum);
+
 
 
 /*

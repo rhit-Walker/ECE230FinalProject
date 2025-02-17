@@ -11,12 +11,7 @@
 #ifndef LED_INDICATOR_H_
 #define LED_INDICATOR_H_
 
-//*****************************************************************************
-//
-// If building with a C++ compiler, make all of the definitions in this header
-// have a C binding.
-//
-//*****************************************************************************
+
 #ifdef __cplusplus
 extern "C"
 {
@@ -27,14 +22,24 @@ extern "C"
 typedef enum  _CurrentLED {LED1, LED2, LED3, LED4} CurrentLED;
 
 // making use of the RGB port and other LED ports in this project
-#define LED_PORT1               P1
-#define LED_PORT2               P2
-#define LED1_PIN                0b00000001 // P1.0
-#define LED2_PIN                0b00000001 // P2.0
-#define LED3_PIN                0b00000010 // P2.1
-#define LED4_PIN                0b00000100 // P2.2
+#define LED_PORT               P4
+#define LED1_PIN BIT4                   // P4.4
+#define LED2_PIN BIT5                   // P4.5
+#define LED3_PIN BIT6                   // P4.6
+#define LED4_PIN BIT7                   // P4.7
 
-#define LED_ALL_PINS            0b00000111 // redefine later...maybe
+
+#define LED_ALL_PINS            0b11110000 // redefine later...maybe
+
+
+extern void LED1_ON(void);
+extern void LED1_OFF(void);
+extern void LED2_ON(void);
+extern void LED2_OFF(void);
+extern void LED3_ON(void);
+extern void LED3_OFF(void);
+extern void LED4_ON(void);
+extern void LED4_OFF(void);
 
 /*!
  * \brief This function configures the LED pins as output pins
@@ -93,7 +98,7 @@ extern void LED4_toggle(void);
  *
  * \return None
  */
-extern void LED_OFF(void);
+extern void LEDS_OFF(void);
 
 
 //*****************************************************************************

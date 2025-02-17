@@ -1,4 +1,3 @@
-
 /*! \file */
 /*!b
  * LED_indicator.c
@@ -12,38 +11,57 @@
 #include "msp.h"
 #include "LED_indicator.h"
 
-
-void LED_init(void) { // Initializes all LEDs (add more?)
-    LED_PORT2->DIR |= LED_ALL_PINS;
-    LED_PORT2->SEL0 &= ~LED_ALL_PINS;
-    LED_PORT2->SEL1 &= ~LED_ALL_PINS;
-    LED_PORT2->OUT &= ~LED_ALL_PINS;
-
-    LED_PORT1->DIR |= LED1_PIN;
-    LED_PORT1->SEL0 &= ~LED1_PIN;
-    LED_PORT1->SEL1 &= ~LED1_PIN;
-    LED_PORT1->OUT &= ~LED1_PIN;
+void LED_init(void)
+{ // Initializes all LEDs (add more?)
+    LED_PORT->DIR |= LED_ALL_PINS;
+    LED_PORT->SEL0 &= ~LED_ALL_PINS;
+    LED_PORT->SEL1 &= ~LED_ALL_PINS;
+    LED_PORT->OUT &= ~LED_ALL_PINS;
 }
 
 // Toggle functions for LEDs:
-void LED1_toggle(void) {
-    LED_PORT1->OUT = (LED_PORT1->OUT) ^ LED1_PIN;
+// LED1
+void LED1_ON(void)
+{
+    LED_PORT->OUT |= LED1_PIN;
+}
+void LED1_OFF(void)
+{
+    LED_PORT->OUT &= ~LED1_PIN;
 }
 
-void LED2_toggle(void) {
-    LED_PORT2->OUT = (LED_PORT2->OUT) ^ LED2_PIN;
+// LED2
+void LED2_ON(void)
+{
+    LED_PORT->OUT |= LED2_PIN;
+}
+void LED2_OFF(void)
+{
+    LED_PORT->OUT &= ~LED2_PIN;
 }
 
-void LED3_toggle(void) {
-    LED_PORT2->OUT = (LED_PORT2->OUT) ^ LED3_PIN;
+// LED3
+void LED3_ON(void)
+{
+    LED_PORT->OUT |= LED3_PIN;
+}
+void LED3_OFF(void)
+{
+    LED_PORT->OUT &= ~LED3_PIN;
 }
 
-void LED4_toggle(void) {
-    LED_PORT2->OUT = (LED_PORT2->OUT) ^ LED4_PIN;
+// LED4
+void LED4_ON(void)
+{
+    LED_PORT->OUT |= LED4_PIN;
+}
+void LED4_OFF(void)
+{
+    LED_PORT->OUT &= ~LED4_PIN;
 }
 
-void LED_OFF(void){
-    LED_PORT2->OUT = ~LED_ALL_PINS;
-    LED_PORT1->OUT = ~LED1_PIN;
+void LEDS_OFF(void)
+{
+    LED_PORT->OUT &= ~LED_ALL_PINS;
 }
 
