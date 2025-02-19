@@ -6,11 +6,11 @@
  */
 
 #include "msp.h"
-#define oneSecondDelay 16250
+#define oneSecondDelay 23438
 
 void TimerA0Init(void)
 {
-    TIMER_A0->CTL = TIMER_A_CTL_SSEL__SMCLK | // SMCLK as source (~3 MHz default)
+    TIMER_A0->CTL = TIMER_A_CTL_SSEL__SMCLK | // SMCLK as source (~1 MHz)
             TIMER_A_CTL_MC__UP |      // Up mode
             TIMER_A_CTL_ID__8 |       // divide by 8
             TIMER_A_CTL_CLR;          // Clear timer
