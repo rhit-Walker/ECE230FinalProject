@@ -36,22 +36,24 @@ void main(void)
 {
     // Initialize system
     WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD; // Stop watchdog timer
+    configHFXT();
+    configLFXT();
+
+
     LED_init();
     InitializeSwitches();
     //InitializeResetSwitch();
     lcd4bits_init();
-
-    configHFXT();
-    configLFXT();
-    PlayerConfiguration();
-    SignalConfigured();
-    NoteDurationConfiguration();
 
     CS->KEY = CS_KEY_VAL;             // Unlock clock system
     CS->CTL0 = CS_CTL0_DCORSEL_0;     // Set DCO to 1 MHz
     CS->CTL1 = CS_CTL1_SELS__DCOCLK | // Set SMCLK source as DCO
             CS_CTL1_SELM__DCOCLK;  // Set MCLK source as DCO
     CS->KEY = 0;                      // Lock clock system
+
+    PlayerConfiguration();
+    SignalConfigured();
+    NoteDurationConfiguration();
 
     TimerA3Init();
 

@@ -70,7 +70,7 @@ void SignalConfigured(void){ // Signal that configuration is done
     while(NotesSequence[noteindex]!=NULL) {
         PlayNote(NotesSequence[noteindex]);
         noteindex=noteindex+1;
-        for(delay = NoteDuration; delay != 0; delay--) {
+        for(delay = CrybabyDelay; delay != 0; delay--) {
          }
     }
 }

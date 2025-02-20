@@ -15,8 +15,8 @@
 
 typedef enum  {STOP, START, WAIT, PAUSE} PlayerStatus;
 
-#define SMCLK 48000000     //Hz
-#define TimerA0Prescaler 4 //Timer A prescaler
+#define SMCLK 1000000     //Hz // changed
+#define TimerA0Prescaler 2 //Timer A prescaler
 #define TimerA0Clock  SMCLK/TimerA0Prescaler
 
 #define RestNote 1
@@ -63,6 +63,7 @@ typedef enum  {STOP, START, WAIT, PAUSE} PlayerStatus;
 #define DELAY100MS  ACLK/10
 
 #define NoteDuration 1000000
+#define CrybabyDelay 50000
 
 
 /*
