@@ -14,7 +14,6 @@
 #define LED1 BIT0
 
 typedef enum  {STOP, START, WAIT, PAUSE} PlayerStatus;
-typedef enum _SwitchState {Pressed, NotPressed} SwitchState;
 
 #define SMCLK 48000000     //Hz
 #define TimerA0Prescaler 4 //Timer A prescaler
@@ -54,34 +53,6 @@ typedef enum _SwitchState {Pressed, NotPressed} SwitchState;
 #define NOTEGsAb5  TimerA0Clock/FrequencyGsAb5
 #define NOTEB5  TimerA0Clock/FrequencyB5
 
-const uint16_t NotesSequence[] = {NOTEE5, NOTEDsEb5, NOTEE5, NOTEFsGb5, NOTEGsAb5, NOTEE5, RestNote, NULL};
-
-const uint16_t CarnivalNotes[] = {RestNote, NOTEE5, NOTEDsEb5, NOTEFsGb4, RestNote, NOTEE5, NOTEFsGb5, NOTEFsGb5, NOTEFsGb4, NOTEFsGb4, RestNote,
-                             NOTEGsAb4, NOTEGsAb4, RestNote, NOTECsDb5, NOTECsDb5, RestNote, //Star
-                             NOTEFsGb4, NOTEB4, RestNote, NOTEB4, RestNote, NOTEGsAb4, NOTEB4, NOTEB4, RestNote, NOTEFsGb4, NOTEB4, NOTEA4, NOTEGsAb4, NOTEE4,
-                             RestNote, //Repeat1
-                             NOTEFsGb4, NOTEB4, RestNote, NOTEB4, RestNote, NOTEGsAb4, NOTEB4, NOTEB4, RestNote, NOTEFsGb4, NOTEB4, NOTEA4, NOTEGsAb4, NOTEE4,
-                             NOTEE5, NOTEDsEb5, NOTEFsGb4, RestNote, NOTEE5, NOTEFsGb5, NOTEFsGb5, NOTEFsGb4, NOTEFsGb4, RestNote,
-                             NOTEGsAb4, NOTEGsAb4, RestNote, NOTECsDb5, NOTECsDb5, // beginning repeats
-                             RestNote, NOTEFsGb4, NOTEB4, RestNote, NOTEB4, RestNote, NOTEE5, NOTEFsGb5, NOTEB5, NOTEFsGb5, NOTEF5, //Star
-                             NOTEE5, NOTEDsEb5, NOTEB4, NOTEB4, NOTEFsGb4, NOTEB4, RestNote, NOTEFsGb4, RestNote, NOTEFsGb4,
-                             NOTEB4, NOTEB4, NOTEF4, RestNote, NOTEE5, NOTEFsGb5, NOTEB5, NOTEFsGb5, NOTEF5,
-                             NOTEB4, NOTEB4, NOTEFsGb4, NOTEB4, RestNote, NOTEFsGb4, RestNote, NOTEFsGb4,
-                             NOTEB4, NOTEB4, NOTEF4, RestNote, NOTEE5, NOTEFsGb5, NOTEB5, NOTEFsGb5, NOTEF5,
-                             NOTEB4, NOTEB4, NOTEFsGb4, NOTEB4, RestNote, NOTEFsGb4, RestNote, NOTEFsGb4,
-                             NOTEB4, NOTEB4, NOTEF4, RestNote, NOTEE5, NOTEFsGb5, NOTEB5, NOTEFsGb5, NOTEF5, NULL};
-const uint16_t CarnivalBeats[] = {8, 2, 2, 8, 8, 8, 8, 8, 8, 8,
-                                  8, 4, 8, 8, 4, 8, 8, 8, 8, 8,
-                                  4, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, //repeat
-                                  8, 8, 8, 8, 4, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, //end repeat
-                                  2, 2, 4, 8, 8, 8, 8, 8, 8, 8, 4, 8, 8, 4, 8, // beginning repeats
-                                  8, 8, 8, 8, 4, 8, 16, 16, 8, 8, 8,
-                                  2, 2, 8, 8, 8, 8, 8, 8, 8, 8,
-                                  8, 8, 8, 8, 16, 16, 8, 8, 8,
-                                  8, 8, 8, 8, 8, 8, 8, 8, // Repeat 1
-                                  8, 8, 8, 8, 16, 16, 8, 8, 8,
-                                  8, 8, 8, 8, 8, 8, 8, 8, // Repeat 2
-                                  8, 8, 8, 8, 16, 16, 8, 8, 8, NULL};
 
 #define ACLK 32768 //Hz
 #define FULL_NOTE       ACLK    //1 second
@@ -128,7 +99,7 @@ extern void NoteDurationConfiguration(void);
  *
  * \return None
  */
-extern void SignalConfigured(const uint16_t notelist[]);
+extern void SignalConfigured(void);
 
 /*
  * Interrupt handler used to play the next note within the Note with a specific beat

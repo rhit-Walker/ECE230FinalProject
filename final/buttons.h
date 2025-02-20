@@ -1,3 +1,4 @@
+
 /*
  * buttons.h
  *
@@ -13,12 +14,12 @@
 
 #define BUTTON_PORT P2            //Port 1
 
-#define BUTTON_1_PIN  BIT4   // P2.4
+#define BUTTON_1_PIN  BIT3   // P2.3
 #define BUTTON_2_PIN  BIT5   // P2.5
 #define BUTTON_3_PIN  BIT6   // P2.6
 #define BUTTON_4_PIN  BIT7   // P2.7
 
-#define RESETBUTTON_PIN  BIT3   // P2.3
+//#define RESETBUTTON_PIN  BIT3   // P2.3
 //TODO #define more buttons
 
 typedef enum _SwitchState {NotPressed, Pressed} SwitchState; // maybe
@@ -30,6 +31,8 @@ typedef enum _SwitchState {NotPressed, Pressed} SwitchState; // maybe
  * \return None
  */
 extern void InitializeSwitches(void);
+
+
 extern void InitializeResetSwitch(void);
 
 /*

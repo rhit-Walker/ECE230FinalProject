@@ -12,6 +12,35 @@
 #include "csLFXT.h"
 #include "speaker.h"
 
+const uint16_t NotesSequence[] = {NOTEE5, NOTEDsEb5, NOTEE5, NOTEFsGb5, NOTEGsAb5, NOTEE5, RestNote, NULL};
+
+const uint16_t CarnivalNotes[] = {RestNote, NOTEE5, NOTEDsEb5, NOTEFsGb4, RestNote, NOTEE5, NOTEFsGb5, NOTEFsGb5, NOTEFsGb4, NOTEFsGb4, RestNote,
+                             NOTEGsAb4, NOTEGsAb4, RestNote, NOTECsDb5, NOTECsDb5, RestNote, //Star
+                             NOTEFsGb4, NOTEB4, RestNote, NOTEB4, RestNote, NOTEGsAb4, NOTEB4, NOTEB4, RestNote, NOTEFsGb4, NOTEB4, NOTEA4, NOTEGsAb4, NOTEE4,
+                             RestNote, //Repeat1
+                             NOTEFsGb4, NOTEB4, RestNote, NOTEB4, RestNote, NOTEGsAb4, NOTEB4, NOTEB4, RestNote, NOTEFsGb4, NOTEB4, NOTEA4, NOTEGsAb4, NOTEE4,
+                             NOTEE5, NOTEDsEb5, NOTEFsGb4, RestNote, NOTEE5, NOTEFsGb5, NOTEFsGb5, NOTEFsGb4, NOTEFsGb4, RestNote,
+                             NOTEGsAb4, NOTEGsAb4, RestNote, NOTECsDb5, NOTECsDb5, // beginning repeats
+                             RestNote, NOTEFsGb4, NOTEB4, RestNote, NOTEB4, RestNote, NOTEE5, NOTEFsGb5, NOTEB5, NOTEFsGb5, NOTEF5, //Star
+                             NOTEE5, NOTEDsEb5, NOTEB4, NOTEB4, NOTEFsGb4, NOTEB4, RestNote, NOTEFsGb4, RestNote, NOTEFsGb4,
+                             NOTEB4, NOTEB4, NOTEF4, RestNote, NOTEE5, NOTEFsGb5, NOTEB5, NOTEFsGb5, NOTEF5,
+                             NOTEB4, NOTEB4, NOTEFsGb4, NOTEB4, RestNote, NOTEFsGb4, RestNote, NOTEFsGb4,
+                             NOTEB4, NOTEB4, NOTEF4, RestNote, NOTEE5, NOTEFsGb5, NOTEB5, NOTEFsGb5, NOTEF5,
+                             NOTEB4, NOTEB4, NOTEFsGb4, NOTEB4, RestNote, NOTEFsGb4, RestNote, NOTEFsGb4,
+                             NOTEB4, NOTEB4, NOTEF4, RestNote, NOTEE5, NOTEFsGb5, NOTEB5, NOTEFsGb5, NOTEF5, NULL};
+const uint16_t CarnivalBeats[] = {8, 2, 2, 8, 8, 8, 8, 8, 8, 8,
+                                  8, 4, 8, 8, 4, 8, 8, 8, 8, 8,
+                                  4, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, //repeat
+                                  8, 8, 8, 8, 4, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, //end repeat
+                                  2, 2, 4, 8, 8, 8, 8, 8, 8, 8, 4, 8, 8, 4, 8, // beginning repeats
+                                  8, 8, 8, 8, 4, 8, 16, 16, 8, 8, 8,
+                                  2, 2, 8, 8, 8, 8, 8, 8, 8, 8,
+                                  8, 8, 8, 8, 16, 16, 8, 8, 8,
+                                  8, 8, 8, 8, 8, 8, 8, 8, // Repeat 1
+                                  8, 8, 8, 8, 16, 16, 8, 8, 8,
+                                  8, 8, 8, 8, 8, 8, 8, 8, // Repeat 2
+                                  8, 8, 8, 8, 16, 16, 8, 8, 8, NULL};
+
 void PlayerConfiguration(void){
     SpeakerPort->DIR |= Speaker;            // set P2.4 as output
     SpeakerPort->SEL0 |= Speaker;           // P2.4 set to TA0.1
@@ -34,12 +63,12 @@ void NoteDurationConfiguration(void){      // Configure note duration and interr
     NVIC->ISER[0] |= (1)<<TA2_0_IRQn;
 }
 
-void SignalConfigured(const uint16_t notelist[]){ // Signal that configuration is done
+void SignalConfigured(void){ // Signal that configuration is done
     static char noteindex;
     unsigned int delay;
     noteindex=0;
-    while(notelist[noteindex]!=NULL) {
-        PlayNote(notelist[noteindex]);
+    while(NotesSequence[noteindex]!=NULL) {
+        PlayNote(NotesSequence[noteindex]);
         noteindex=noteindex+1;
         for(delay = NoteDuration; delay != 0; delay--) {
          }

@@ -27,17 +27,17 @@ void InitializeSwitches(void)
             | BUTTON_4_PIN );  // Set pull-ups
 }
 
-void InitializeResetSwitch(void)
-{
-    BUTTON_PORT->DIR &= ~RESETBUTTON_PIN; // P2.3 as input
-    BUTTON_PORT->REN |= RESETBUTTON_PIN;  // Enable pull-up resistor
-    BUTTON_PORT->OUT |= RESETBUTTON_PIN;
-    BUTTON_PORT->IES |= RESETBUTTON_PIN;  // Interrupt on falling edge
-    BUTTON_PORT->IFG &= ~RESETBUTTON_PIN; // Clear interrupt flag
-    BUTTON_PORT->IE |= RESETBUTTON_PIN;   // Enable interrupt for P2.3
-
-    NVIC->ISER[1] = 1 << ((PORT2_IRQn) & 31);
-}
+//void InitializeResetSwitch(void)
+//{
+//    BUTTON_PORT->DIR &= ~RESETBUTTON_PIN; // P2.3 as input
+//    BUTTON_PORT->REN |= RESETBUTTON_PIN;  // Enable pull-up resistor
+//    BUTTON_PORT->OUT |= RESETBUTTON_PIN;
+//    BUTTON_PORT->IES |= RESETBUTTON_PIN;  // Interrupt on falling edge
+//    BUTTON_PORT->IFG &= ~RESETBUTTON_PIN; // Clear interrupt flag
+//    BUTTON_PORT->IE |= RESETBUTTON_PIN;   // Enable interrupt for P2.3
+//
+//    NVIC->ISER[1] = 1 << ((PORT2_IRQn) & 31);
+//}
 //TODO add more buttons
 
 SwitchState CheckSwitch(int switchNum)
@@ -76,4 +76,3 @@ void Debounce(void)
     for (delay = 0; delay <= Ddelay; delay++)
         ; // delay for a short interval
 }
-
