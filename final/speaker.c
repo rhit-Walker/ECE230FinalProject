@@ -12,6 +12,8 @@
 #include "csLFXT.h"
 #include "speaker.h"
 
+char nextnote = 0;
+
 const uint16_t NotesSequence[] = {NOTEE5, NOTEDsEb5, NOTEE5, NOTEFsGb5, NOTEGsAb5, NOTEE5, RestNote, NULL};
 
 const uint16_t CarnivalNotes[] = {RestNote, NOTEE5, NOTEDsEb5, NOTEFsGb4, RestNote, NOTEE5, NOTEFsGb5, NOTEFsGb5, NOTEFsGb4, NOTEFsGb4, RestNote,
@@ -57,6 +59,7 @@ void PlayNote(unsigned int CurrentNote){   // Set high pulse-width in CCR1 regis
 }
 
 void NoteDurationConfiguration(void){      // Configure note duration and interrupts
+    nextnote = 0;
     TIMER_A2->CCR[0] = HALF_NOTE;
     TIMER_A2->CCTL[0]=0x0010;
     TIMER_A2->CTL=0b0000000100010100;
@@ -76,7 +79,7 @@ void SignalConfigured(void){ // Signal that configuration is done
 }
 
 void TA2_0_IRQHandler(void){
-    static char nextnote=0;     //start with first note in a song
+    //static char nextnote=0;     //start with first note in a song
     static char insert_rest=1;
 
     if(TIMER_A2->CCTL[0] & TIMER_A_CCTLN_CCIFG) // CCR0 interrupt

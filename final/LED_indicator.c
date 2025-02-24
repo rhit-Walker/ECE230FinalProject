@@ -64,4 +64,3 @@ void LEDS_OFF(void)
 {
     LED_PORT->OUT &= ~LED_ALL_PINS;
 }
-

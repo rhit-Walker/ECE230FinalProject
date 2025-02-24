@@ -27,13 +27,22 @@ volatile int missFlag = 0;  // 1 = waiting for input; 0 = input received
 volatile int moleToggle = 0; // toggles between turning off mole and turning on mole
 volatile int inputFlag = 0; // prevents excessive button presses
 volatile int penaltyFlag = 0; // prevents excessive button presses
+volatile int oneSecondDelay = 23438; // modifiable to speed up
+volatile int startingDelay = 23438;
+int decreaseDelay = 500;
 int lives = 3;
 extern int score = 0;
+int switchOne = 0;  // defined for the start
+int switchFour = 3; // defined for the reset
+int switchLCD = 25000; // simple delay to switch the LCD screen in the end state
+int flipFlop = 0;
+int victory = 25;   // victory requirement
 
 
 
 void main(void)
 {
+    SwitchState buttonStates[NUM_MOLES] = { NotPressed }; // Game state variables
     // Initialize system
     WDT_A->CTL = WDT_A_CTL_PW | WDT_A_CTL_HOLD; // Stop watchdog timer
     configHFXT();
@@ -53,19 +62,27 @@ void main(void)
 
     PlayerConfiguration();
     SignalConfigured();
-    NoteDurationConfiguration();
 
-    TimerA3Init();
+    lcd_clear();
+    lcd_SetLineNumber(FirstLine);
+    lcd_puts("  Whack-A-Mole");
+    lcd_SetLineNumber(SecondLine);
+    lcd_puts("Press 1 to Start");
+
+    while(buttonStates[switchOne] != Pressed){
+        buttonStates[switchOne] = CheckSwitch(switchOne); // wait for button 1 to be pressed
+    }                                                     // before starting
+
+    NoteDurationConfiguration();
+    TimerA3Init(startingDelay);
 
     __enable_irq();
-
-    // Game state variables
-    SwitchState buttonStates[NUM_MOLES] = { NotPressed };
 
     srand(time(NULL));
 
     while (1)
     {
+
         int pressedButton = -1;
 
         // Wait for button press or reset
@@ -76,19 +93,59 @@ void main(void)
                 TIMER_A0->CTL &= ~TIMER_A_CTL_MC_MASK;
                 LEDS_OFF();
                 lcd_clear();
+                char displaystr[16];
+                if(score >= victory){  // display victory or game over based on score
+                    sprintf(displaystr, "    VICTORY!");
+                } else {
+                    sprintf(displaystr, "   GAME OVER!");
+                }
                 lcd_SetLineNumber(FirstLine);
-                lcd_puts("   GAME OVER!");
+                lcd_puts(displaystr);
                 lcd_SetLineNumber(SecondLine);
                 char scoreStr[16];
                 sprintf(scoreStr, "Score: %d", score);
                 lcd_puts(scoreStr);
 
-                // Wait for reset interrupt
-                // instead, disable the IRQ and wait for the reset button to be pressed
-                __disable_irq();
-                while (!resetFlag)
-                    ;
 
+                // disable the IRQ and wait for the reset button to be pressed
+                __disable_irq();
+                while (1){
+                    buttonStates[switchFour] = CheckSwitch(switchFour); // wait for button 4 to be pressed
+                    if(buttonStates[switchFour] == Pressed){
+
+                        LEDS_OFF(); // Reset lives and Score
+                        lives = 4;
+                        score = 0;
+                        startingDelay = oneSecondDelay;
+                        Debounce();
+                        PlayerConfiguration(); // reconfigure
+                        NoteDurationConfiguration();
+
+                        __enable_irq();
+
+                        break;
+                    }
+                    if(switchLCD == 0 && flipFlop == 1){
+                        flipFlop = 0;
+                        switchLCD = 25000;
+                        lcd_clear();
+                        lcd_SetLineNumber(FirstLine);
+                        lcd_puts(displaystr);
+                        lcd_SetLineNumber(SecondLine);
+                        lcd_puts("Press 4 to Start");
+                    }
+                    if(switchLCD == 0 && flipFlop == 0){
+                        flipFlop = 1;
+                        switchLCD = 25000;
+                        lcd_clear();
+                        lcd_SetLineNumber(FirstLine);
+                        lcd_puts(displaystr);
+                        lcd_SetLineNumber(SecondLine);
+                        sprintf(scoreStr, "Score: %d", score);
+                        lcd_puts(scoreStr);
+                    }
+                    switchLCD--;
+                }
             }
             int k;
             for (k = 0; k < NUM_MOLES; k++)
@@ -109,9 +166,12 @@ void main(void)
 //                        activeMole = -1;
                         LEDS_OFF();
                         score++;
+                        if(score >= 5){
+                            startingDelay = startingDelay - decreaseDelay;
+                        }
                         lcd_clear();
                         lcd_SetLineNumber(FirstLine);
-                        lcd_puts("    BONK! ");
+                        lcd_puts("     BONK! ");
                         lcd_SetLineNumber(SecondLine);
                         char scoreStr[16];
                         sprintf(scoreStr, "Score: %d", score);
@@ -145,7 +205,7 @@ void main(void)
             }
         }
         // Handle reset
-        if (resetFlag)
+        if (resetFlag) // I think this is dead code
         {
             lcd_clear();
             lcd_SetLineNumber(FirstLine);
@@ -202,7 +262,7 @@ void TA3_0_IRQHandler(void)
             penaltyFlag = 1;
             lives--;
             lcd_clear();
-            lcd_puts(" MISS!");
+            lcd_puts("     MISS!");
             lcd_SetLineNumber(SecondLine);
             char livesStr[16];
             sprintf(livesStr, "Lives: %d", lives);
@@ -214,6 +274,7 @@ void TA3_0_IRQHandler(void)
 //    startFlag = 0
     missFlag = 1;
     moleToggle = !moleToggle;
+    TimerA3Init(startingDelay);
 }
 
 //void PORT2_IRQHandler(void)

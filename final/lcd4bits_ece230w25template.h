@@ -30,11 +30,11 @@ extern void lcd_puts(char * s);
 
 /* Go to the specified position */
 extern void lcd_SetLineNumber(unsigned char pos);
-	
+
 /* intialize the LCD - call before anything else */
 extern void lcd4bits_init(void);
 
 extern void lcd_putch(char);
 
-/*	Set the cursor position */
-#define	lcd_cursor(x)	lcd_write(((x)&0x7F)|0x80)
+/*  Set the cursor position */
+#define lcd_cursor(x)   lcd_write(((x)&0x7F)|0x80)
