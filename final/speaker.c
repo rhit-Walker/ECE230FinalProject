@@ -12,7 +12,8 @@
 #include "csLFXT.h"
 #include "speaker.h"
 
-char nextnote = 0;
+char resetNote = 0;
+char nextnote;
 
 const uint16_t NotesSequence[] = {NOTEE5, NOTEDsEb5, NOTEE5, NOTEFsGb5, NOTEGsAb5, NOTEE5, RestNote, NULL};
 
@@ -30,7 +31,7 @@ const uint16_t CarnivalNotes[] = {RestNote, NOTEE5, NOTEDsEb5, NOTEFsGb4, RestNo
                              NOTEB4, NOTEB4, NOTEF4, RestNote, NOTEE5, NOTEFsGb5, NOTEB5, NOTEFsGb5, NOTEF5,
                              NOTEB4, NOTEB4, NOTEFsGb4, NOTEB4, RestNote, NOTEFsGb4, RestNote, NOTEFsGb4,
                              NOTEB4, NOTEB4, NOTEF4, RestNote, NOTEE5, NOTEFsGb5, NOTEB5, NOTEFsGb5, NOTEF5, NULL};
-const uint16_t CarnivalBeats[] = {8, 2, 2, 8, 8, 8, 8, 8, 8, 8,
+const uint16_t CarnivalBeats[] = {16, 2, 2, 8, 8, 8, 8, 8, 8, 8,
                                   8, 4, 8, 8, 4, 8, 8, 8, 8, 8,
                                   4, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, //repeat
                                   8, 8, 8, 8, 4, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, //end repeat
@@ -41,7 +42,7 @@ const uint16_t CarnivalBeats[] = {8, 2, 2, 8, 8, 8, 8, 8, 8, 8,
                                   8, 8, 8, 8, 8, 8, 8, 8, // Repeat 1
                                   8, 8, 8, 8, 16, 16, 8, 8, 8,
                                   8, 8, 8, 8, 8, 8, 8, 8, // Repeat 2
-                                  8, 8, 8, 8, 16, 16, 8, 8, 8, NULL};
+                                  8, 8, 8, 8, 16, 16, 8, 8, 4, NULL};
 
 void PlayerConfiguration(void){
     SpeakerPort->DIR |= Speaker;            // set P2.4 as output
@@ -59,7 +60,7 @@ void PlayNote(unsigned int CurrentNote){   // Set high pulse-width in CCR1 regis
 }
 
 void NoteDurationConfiguration(void){      // Configure note duration and interrupts
-    nextnote = 0;
+    nextnote = resetNote;
     TIMER_A2->CCR[0] = HALF_NOTE;
     TIMER_A2->CCTL[0]=0x0010;
     TIMER_A2->CTL=0b0000000100010100;

@@ -64,7 +64,7 @@
 void DelayMs(unsigned int);
 
 /*
- * Initialize the LCD - put into 8 bit mode
+ * Initialize the LCD - put into 4 bit mode
  */
 /*                MSP432P401
  *             ------------------

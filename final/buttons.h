@@ -51,6 +51,13 @@ extern SwitchState CheckSwitch(int switchNum);
  */
 extern void Debounce(void);
 
+/*
+ * Delay inserted after resetting.
+ *
+ * \return None
+ */
+extern void Debounce_Long(void);
+
 
 
 #endif /* BUTTONS_H_ */

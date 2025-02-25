@@ -76,3 +76,9 @@ void Debounce(void)
     for (delay = 0; delay <= Ddelay; delay++)
         ; // delay for a short interval
 }
+
+void Debounce_Long(void){
+    unsigned int delay;
+    for (delay = 0; delay <= Ddelay*5; delay++)
+        ; // delay for a long interval
+}

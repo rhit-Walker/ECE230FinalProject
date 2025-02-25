@@ -8,7 +8,7 @@
 #ifndef TIMERAINTERRUPTS_H_
 #define TIMERAINTERRUPTS_H_
 
-extern void TimerA0Init(void);
+extern void TimerA3Init(int oneSecondDelay);
 
 //extern void TimerA1Init(void);
 

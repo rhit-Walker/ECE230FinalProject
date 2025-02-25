@@ -1,6 +1,14 @@
+// File Name: main_final_project.c
+// Authors: Quentin Walker, Cruz Martinez
+// Date: February, 10, 2025
+// ECE230 Winter 2024-2025
 
 
-
+/*
+ * main.c the main driver for our game, calls and initializes sub-functions
+ *
+ */
+// includes
 #include "msp.h"
 #include "buttons.h"
 #include "LED_indicator.h"
@@ -13,9 +21,6 @@
 #include <TimerAInterrupts.h>
 #include <lcd4bits_ece230w25template.h>
 
-/*
- * main.c the main driver for our game
- */
 
 #define NUM_MOLES 4
 
@@ -73,6 +78,7 @@ void main(void)
         buttonStates[switchOne] = CheckSwitch(switchOne); // wait for button 1 to be pressed
     }                                                     // before starting
 
+    lcd_clear();
     NoteDurationConfiguration();
     TimerA3Init(startingDelay);
 
@@ -113,13 +119,16 @@ void main(void)
                     buttonStates[switchFour] = CheckSwitch(switchFour); // wait for button 4 to be pressed
                     if(buttonStates[switchFour] == Pressed){
 
+                        lcd_clear();
                         LEDS_OFF(); // Reset lives and Score
-                        lives = 4;
+                        lives = 3;
                         score = 0;
                         startingDelay = oneSecondDelay;
-                        Debounce();
+                        Debounce_Long();
+
                         PlayerConfiguration(); // reconfigure
                         NoteDurationConfiguration();
+
 
                         __enable_irq();
 
